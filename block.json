@@ -1,0 +1,213 @@
+{
+  "id": 200,
+  "title": "Cosmos DB Cost Analysis",
+  "type": "row",
+  "collapsed": false,
+  "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 100
+  },
+  "panels": [
+    {
+      "id": 101,
+      "title": "Cost by Subscription",
+      "type": "piechart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by SubscriptionName\n| project SubscriptionName, TotalCost\n| sort by TotalCost desc\n| limit 10",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "pieType": "pie",
+        "legend": { "displayMode": "list", "placement": "right", "values": ["lastNotNull", "percent"] },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } } }
+    },
+
+    {
+      "id": 102,
+      "title": "Cost by Region",
+      "type": "piechart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by ResourceLocation\n| project ResourceLocation, TotalCost\n| sort by TotalCost desc\n| limit 10",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "pieType": "pie",
+        "legend": { "displayMode": "list", "placement": "right", "values": ["lastNotNull", "percent"] },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } } }
+    },
+
+    {
+      "id": 103,
+      "title": "Cost by API Type",
+      "type": "piechart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by MeterSubCategory\n| project MeterSubCategory, TotalCost\n| sort by TotalCost desc\n| limit 10",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "pieType": "pie",
+        "legend": { "displayMode": "list", "placement": "right", "values": ["lastNotNull", "percent"] },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } } }
+    },
+
+    {
+      "id": 104,
+      "title": "Cost by System",
+      "type": "piechart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by ResourceGroup\n| project ResourceGroup, TotalCost\n| sort by TotalCost desc\n| limit 10",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "pieType": "pie",
+        "legend": { "displayMode": "list", "placement": "right", "values": ["lastNotNull", "percent"] },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } } }
+    },
+
+    {
+      "id": 105,
+      "title": "Cost by Meter",
+      "type": "piechart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by MeterName\n| project MeterName, TotalCost\n| sort by TotalCost desc\n| limit 10",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "pieType": "pie",
+        "legend": { "displayMode": "list", "placement": "right", "values": ["lastNotNull", "percent"] },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": { "defaults": { "unit": "currencyUSD", "color": { "mode": "palette-classic" } } }
+    },
+
+    {
+      "id": 106,
+      "title": "Cost by Subscription × Region",
+      "type": "barchart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 9, "x": 6, "y": 8 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by SubscriptionName, ResourceLocation\n| project ResourceLocation, SubscriptionName, TotalCost\n| sort by ResourceLocation asc, TotalCost desc\n| limit 20",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelSpacing": 100,
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+
+    {
+      "id": 107,
+      "title": "Cost by API Type × System",
+      "type": "barchart",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 9, "x": 15, "y": 8 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= datetime(${__from:date}) and TimeGenerated <= datetime(${__to:date})\n| where MeterCategory contains \"Cosmos DB\"\n| summarize TotalCost = sum(CostInBillingCurrency) by MeterSubCategory, ResourceGroup\n| project MeterSubCategory, ResourceGroup, TotalCost\n| sort by MeterSubCategory asc, TotalCost desc\n| limit 20",
+          "format": "table",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelSpacing": 100,
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+
+    {
+      "id": 108,
+      "title": "Monthly Cost (12 months)",
+      "type": "timeseries",
+      "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 16 },
+      "targets": [
+        {
+          "datasource": { "type": "grafana-azure-data-explorer-datasource", "uid": "${ds}" },
+          "editorMode": "code",
+          "expr": "RestrictedAzureCostData_EnrollmentLevel\n| where TimeGenerated >= ago(12M)\n| where MeterCategory contains \"Cosmos DB\"\n| extend Month = bin(TimeGenerated, 1M)\n| summarize Cost = sum(CostInBillingCurrency) by Month\n| project TimeGenerated = Month, Cost\n| order by TimeGenerated asc",
+          "format": "time_series",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom", "values": ["last"] },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    }
+  ]
+}
